@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewAddress"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/local"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editTextTitle"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
+
+    <TextView
+        android:id="@+id/textViewTypeHouse"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tipo_de_imovel"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editTextAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editTextAddress" />
+
+    <TextView
+        android:id="@+id/textViewTypeContract"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tipo_de_contrato"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/rdGroup"
+        app:layout_constraintTop_toBottomOf="@+id/rdGroup" />
+
+    <TextView
+        android:id="@+id/textViewNameOwner"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/proprietario"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/rdContract"
+        app:layout_constraintTop_toBottomOf="@+id/rdContract" />
+
+    <TextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/descricao"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editTextNameOwner"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNameOwner" />
+
+    <TextView
+        android:id="@+id/textViewValue"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/valor"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rdGroup" />
+
+    <TextView
+        android:id="@+id/textViewPhoneOwner"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/telefone"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextValue" />
+
+    <TextView
+        android:id="@+id/textViewNumber"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/numero"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/editTextNumber"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
+
+    <Button
+        android:id="@+id/buttonLimpar2"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="Limpar"
+        android:text="@string/clean_button"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonSalvar2" />
+
+    <Button
+        android:id="@+id/buttonSalvar2"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:onClick="Salvar"
+        android:text="@string/save_inf"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="373dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/titulo"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="373dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:autoText="false"
+        android:ems="10"
+        android:hint="@string/digite_um_titulo_para_o_anuncio_do_imovel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
+    <EditText
+        android:id="@+id/editTextAddress"
+        android:layout_width="250dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="@string/digite_o_endereco"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAddress" />
+
+    <EditText
+        android:id="@+id/editTextNameOwner"
+        android:layout_width="200dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:hint="@string/nome_do_proprietario"
+        android:inputType="textShortMessage|textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/textViewNameOwner"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNameOwner" />
+
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="375dp"
+        android:layout_height="70dp"
+        android:ems="10"
+        android:hint="@string/EditText_descricao"
+        android:inputType="textLongMessage|text"
+        app:layout_constraintStart_toStartOf="@+id/textViewDescription"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
+
+    <EditText
+        android:id="@+id/editTextNumberPhone"
+        android:layout_width="150dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="@string/edittext_telefone"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPhoneOwner" />
+
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="100dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="@string/number"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNumber" />
+
+    <EditText
+        android:id="@+id/editTextValue"
+        android:layout_width="150dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="@string/preco"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewValue" />
+
+    <RadioGroup
+        android:id="@+id/rdGroup"
+        android:layout_width="380dp"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/textViewTypeHouse"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTypeHouse">
+
+        <RadioButton
+            android:id="@+id/radioButtonApto"
+            android:layout_width="142dp"
+            android:layout_height="37dp"
+            android:text="@string/apartamento" />
+
+        <RadioButton
+            android:id="@+id/radioButtonHouse"
+            android:layout_width="120dp"
+            android:layout_height="37dp"
+            android:text="@string/casa"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonGround"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_weight="1"
+            android:text="@string/terreno"/>
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rdContract"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/textViewTypeContract"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTypeContract">
+
+        <RadioButton
+            android:id="@+id/radioButtonSale"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/venda"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonRent"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/aluguel"/>
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

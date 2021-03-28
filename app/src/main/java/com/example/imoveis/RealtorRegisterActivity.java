@@ -24,23 +24,29 @@ public class RealtorRegisterActivity extends AppCompatActivity {
     private RadioGroup rdGender;
     private CheckBox cbTerms;
     public Spinner spUF;
-    public static final String NOME    = "NOME";
-    public static final String MODO    = "MODO";
-    public static final int    ALTERAR = 2;
+    public static final String NAME    = "NAME";
+    public static final String PHONE    = "PHONE";
+    public static final String EMAIL    = "EMAIL";
+    public static final String PASSWORD    = "PASSWORD";
+    public static final String MODE    = "MODO";
+    public static final int NEW = 1;
+    public static final int    ALTER = 2;
+    private int mode;
+    private String nameOriginal;
+    private String phoneOriginal;
+    private String emailOriginal;
+    private String passawordOriginal;
 
-    DataBaseRealtor db = new DataBaseRealtor(this);
-
-    public static void alterarPessoa(AppCompatActivity activity, Realtor realtor){
-
+    public static void alterRealtor(AppCompatActivity activity, Realtor realtor){
         Intent intent = new Intent(activity, RealtorRegisterActivity.class);
-
-        intent.putExtra(MODO, ALTERAR);
-        intent.putExtra(NOME, realtor.getName());
-
-        activity.startActivityForResult(intent, ALTERAR);
+        intent.putExtra(MODE, ALTER);
+        intent.putExtra(NAME, realtor.getName());
+        intent.putExtra(PHONE, realtor.getPhone());
+        intent.putExtra(EMAIL, realtor.getEmail());
+        intent.putExtra(PASSWORD, realtor.getPassword());
+        activity.startActivityForResult(intent, ALTER);
     }
 
-    ///CRIAR MENU OPCOES
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_opcao_cadastro, menu);
@@ -49,7 +55,6 @@ public class RealtorRegisterActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.menuItemSalvar:
                 save();
@@ -64,16 +69,8 @@ public class RealtorRegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
-
-
-
-        setTitle(getString(R.string.CADASTRO_CORRETOR));
-
         editTextName = findViewById(R.id.editTextName);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPhone = findViewById(R.id.editTextTelefone);
@@ -85,42 +82,66 @@ public class RealtorRegisterActivity extends AppCompatActivity {
         cbTerms = findViewById(R.id.checkBoxConcordo);
         spUF = findViewById(R.id.spinnerUF);
 
-        loadSpinner();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
 
+        if (bundle != null) {
+          mode = bundle.getInt(MODE, NEW);
+
+          if (mode == NEW) {
+              setTitle(getString(R.string.CADASTRO_CORRETOR));
+          } else {
+
+              nameOriginal = bundle.getString(NAME);
+              editTextName.setText(nameOriginal);
+
+              phoneOriginal = bundle.getString(PHONE);
+              editTextPhone.setText(phoneOriginal);
+
+              emailOriginal = bundle.getString(EMAIL);
+              editTextEmail.setText(emailOriginal);
+
+              passawordOriginal = bundle.getString(PASSWORD);
+              editTextPassWord.setText(passawordOriginal);
+
+          }
+        }
+
+        loadSpinner();
     }
 
     private void loadSpinner() {
-        ArrayList<String> lista = new ArrayList<>();
-        lista.add("Selecione");
-        lista.add("PR");
-        lista.add("ES");
-        lista.add("GO");
-        lista.add("MA");
-        lista.add("AC");
-        lista.add("AL");
-        lista.add("AP");
-        lista.add("AM");
-        lista.add("BA");
-        lista.add("CE");
-        lista.add("MT");
-        lista.add("MS");
-        lista.add("MG");
-        lista.add("PA");
-        lista.add("PB");
-        lista.add("PE");
-        lista.add("PI");
-        lista.add("RJ");
-        lista.add("RN");
-        lista.add("RS");
-        lista.add("RO");
-        lista.add("RR");
-        lista.add("SC");
-        lista.add("SP");
-        lista.add("SE");
-        lista.add("TO");
-        lista.add("DF");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Selecione");
+        list.add("PR");
+        list.add("ES");
+        list.add("GO");
+        list.add("MA");
+        list.add("AC");
+        list.add("AL");
+        list.add("AP");
+        list.add("AM");
+        list.add("BA");
+        list.add("CE");
+        list.add("MT");
+        list.add("MS");
+        list.add("MG");
+        list.add("PA");
+        list.add("PB");
+        list.add("PE");
+        list.add("PI");
+        list.add("RJ");
+        list.add("RN");
+        list.add("RS");
+        list.add("RO");
+        list.add("RR");
+        list.add("SC");
+        list.add("SP");
+        list.add("SE");
+        list.add("TO");
+        list.add("DF");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         spUF.setAdapter(adapter);
     }
@@ -133,14 +154,13 @@ public class RealtorRegisterActivity extends AppCompatActivity {
     }
 
     public void save() {
-
-        String nome = editTextName.getText().toString();
+        String name = editTextName.getText().toString();
         String email = editTextEmail.getText().toString();
-        String telefone = editTextPhone.getText().toString();
-        String senha = editTextPassWord.getText().toString();
+        String phone = editTextPhone.getText().toString();
+        String password = editTextPassWord.getText().toString();
         String spinner = spUF.getSelectedItem().toString();
 
-        Boolean sameFieldIsEmpty = nome.trim().isEmpty() || email.trim().isEmpty() || telefone.trim().isEmpty() || senha.trim().isEmpty();
+        Boolean sameFieldIsEmpty = name.trim().isEmpty() || email.trim().isEmpty() || phone.trim().isEmpty() || password.trim().isEmpty();
 
         switch (rdGender.getCheckedRadioButtonId()){
 
@@ -172,7 +192,9 @@ public class RealtorRegisterActivity extends AppCompatActivity {
             return;
 
         } else {
-            db.addClient(new Realtor (nome,telefone,email,senha));
+
+            RealtorDataBase database = RealtorDataBase.getDatabase(this);
+            database.realtorDAO().insert(new Realtor (name,phone,email,password));
             Toast.makeText(this, R.string.cadastro_efetuado_com_sucesso, Toast.LENGTH_SHORT).show();
             clear();
 
@@ -181,9 +203,7 @@ public class RealtorRegisterActivity extends AppCompatActivity {
         }
     }
 
-
     private void clear() {
-
         editTextName.setText(null);
         editTextPhone.setText(null);
         editTextEmail.setText(null);
@@ -193,7 +213,6 @@ public class RealtorRegisterActivity extends AppCompatActivity {
         rdButtonNe.setChecked(false);
         cbTerms.setChecked(false);
         spUF.setAdapter(null);
-
         editTextName.requestFocus();
 
     }

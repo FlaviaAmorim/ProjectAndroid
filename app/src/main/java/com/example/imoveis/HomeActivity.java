@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Button registerRealtor, registerHouse;
+    private Button registerRealtor, registerProperty;
     private Switch myswitch;
 
     @Override
@@ -43,18 +43,17 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         registerRealtor = findViewById(R.id.btnRealtor);
-        registerHouse = findViewById(R.id.btnHouse);
+        registerProperty = findViewById(R.id.btnHouse);
 
         registerRealtor.setOnClickListener(v -> {
             Intent intent = new Intent(this, RealtorRegisterActivity.class);
             startActivity(intent);
         });
-        registerHouse.setOnClickListener(v -> {
+        registerProperty.setOnClickListener(v -> {
             Intent intent = new Intent(this, PropertyRegisterActivity.class);
             startActivity(intent);
         });
     }
-
 
     public void restartApp() {
         Intent i = new Intent(getApplicationContext(),HomeActivity.class);

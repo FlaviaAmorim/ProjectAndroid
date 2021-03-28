@@ -1,9 +1,11 @@
 package com.example.imoveis;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -12,10 +14,13 @@ public interface PropertyDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Property property);
 
-    @Query("DELETE FROM property_table")
-    void deleteAll();
+    @Delete
+    void delete(Property property);
 
-    @Query("SELECT * FROM property_table ORDER BY property ASC")
+    @Update
+    void update(Property property);
+
+    @Query("SELECT * FROM property_table")
     List<Property> queryAll();
 }
 

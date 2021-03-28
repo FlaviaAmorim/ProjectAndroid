@@ -1,6 +1,16 @@
 package com.example.imoveis;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "realtor_table")
 public class Realtor {
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "realtor")
 
     int id;
     String name;
@@ -66,6 +76,9 @@ public class Realtor {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public  String toString() { return getName();}
 }
 
 

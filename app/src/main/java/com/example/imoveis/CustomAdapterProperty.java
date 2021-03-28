@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class CustomAdapterProperty extends ArrayAdapter<Property> implements View.OnClickListener {
 
-    private ArrayList<Property> dataSet;
+    public ArrayList<Property> dataSet;
     Context mContext;
 
     private static class ViewHolder {

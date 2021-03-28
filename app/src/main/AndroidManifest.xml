@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListViewRealtorActivity">
+        <activity android:name=".ListViewPropertyActivity">
             <intent-filter>
                 <action android:name="android.intent.action" />
 
@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListViewPropertyActivity">
+        <activity android:name=".ListViewRealtorActivity">
             <intent-filter>
                 <action android:name="android.intent.action" />
 

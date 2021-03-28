@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-//import android.view.ActionMode.;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,27 +11,23 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ActionMode;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.appcompat.view.ActionMode;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListViewRealtorActivity extends AppCompatActivity {
 
-    private ListView listViewClient;
+    private ListView listViewRealtor;
     private ArrayAdapter<Realtor> adapter;
-    private androidx.appcompat.view.ActionMode actionMode;
-    private View       viewSelecionada;
-    private int        posicaoSelecionada = -1;
+    private ActionMode actionMode;
+    private View       viewSelected;
+    private int        positionSelected = -1;
+
     ArrayList<Realtor> arrayList = new ArrayList<>();
-    DataBaseRealtor db = new DataBaseRealtor(this);
 
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
@@ -51,11 +46,12 @@ public class ListViewRealtorActivity extends AppCompatActivity {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.menuItemEditar:
-                    alterar();
+                    alter();
                     mode.finish();
                     return true;
                 case R.id.menuItemExcluir:
-                    excluir();
+                    Realtor realtor = (Realtor) listViewRealtor.getItemAtPosition(positionSelected);
+                    delete(realtor);
                     mode.finish();
                     return true;
 
@@ -66,16 +62,27 @@ public class ListViewRealtorActivity extends AppCompatActivity {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            if (viewSelecionada != null){
-                viewSelecionada.setBackgroundColor(Color.TRANSPARENT);
+            if (viewSelected != null){
+                viewSelected.setBackgroundColor(Color.TRANSPARENT);
             }
 
             actionMode         = null;
-            viewSelecionada    = null;
-            listViewClient.setEnabled(true);
+            viewSelected    = null;
+            listViewRealtor.setEnabled(true);
 
         }
     };
+
+    private void loadRealtor() {
+        RealtorDataBase db = RealtorDataBase.getDatabase(this);
+        List<Realtor> realtor = db.realtorDAO().queryAll();
+        setTitle(getString(R.string.lista_corretores));
+
+        arrayList.clear();
+        for (Realtor c : realtor) {
+            arrayList.add(c);
+        }
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,39 +92,29 @@ public class ListViewRealtorActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 arrayList);
 
-        listViewClient = findViewById(R.id.listViewClient);
+        loadRealtor();
 
-        registerForContextMenu(listViewClient);
-
-        List<Realtor> clients = db.clientList();
-        setTitle(getString(R.string.lista_corretores));
-
-        if (clients == null || clients.size() == 0) {
-            insertMockDatabase();
-            clients = db.clientList();
-        }
-
-        for (Realtor c : clients) {
-            arrayList.add(c);
-        }
+        listViewRealtor = findViewById(R.id.listViewClient);
 
         CustomAdapterRealtor adapter = new CustomAdapterRealtor(arrayList, getApplicationContext());
+        listViewRealtor.setAdapter(adapter);
 
-        listViewClient.setAdapter(adapter);
-
-        listViewClient.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewRealtor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Realtor dataModel= arrayList.get(position);
+                Realtor realtor = (Realtor) parent.getItemAtPosition(position);
 
-                Snackbar.make(view, dataModel.getName() + "\n"+dataModel.getEmail(), Snackbar.LENGTH_LONG)
+                positionSelected = position;
+                alter();
+
+                Snackbar.make(view, realtor.getName() + "\n"+realtor.getEmail(), Snackbar.LENGTH_LONG)
                         .setAction("No action", null).show();
             }
         });
 
-        listViewClient.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        listViewClient.setOnItemLongClickListener(
+        listViewRealtor.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listViewRealtor.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
 
                     @Override
@@ -130,13 +127,13 @@ public class ListViewRealtorActivity extends AppCompatActivity {
                             return false;
                         }
 
-                        posicaoSelecionada = position;
+                        positionSelected = position;
 
                         view.setBackgroundColor(Color.LTGRAY);
 
-                        viewSelecionada = view;
+                        viewSelected = view;
 
-                        listViewClient.setEnabled(false);
+                        listViewRealtor.setEnabled(false);
 
                         actionMode = startSupportActionMode(mActionModeCallback);
 
@@ -145,31 +142,34 @@ public class ListViewRealtorActivity extends AppCompatActivity {
                 });
     }
 
-    private void alterar() {
-
-        Realtor realtor = arrayList.get(posicaoSelecionada);
-        RealtorRegisterActivity.alterarPessoa(this, realtor);
+    private void alter() {
+        Realtor realtor = arrayList.get(positionSelected);
+        RealtorRegisterActivity.alterRealtor(this,
+                realtor);
 
     }
 
-    private void excluir () {
-
+    private void delete (final Realtor realtor) {
         new AlertDialog.Builder(this)
-                .setTitle("Atenção")
-                .setMessage("Tem certeza que deseja excluir este item?")
-                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.atencao)
+                .setMessage(R.string.tem_certeza_que_deseja_excluir_este_item)
+                .setPositiveButton(R.string.sim, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        arrayList.remove(posicaoSelecionada);
-                        adapter.notifyDataSetChanged();
+                        RealtorDataBase dataBase = RealtorDataBase.getDatabase(ListViewRealtorActivity.this);
+                        dataBase.realtorDAO().delete(realtor);
+                        adapter.remove(realtor);
+                        loadRealtor();
+                        CustomAdapterRealtor adapter = new CustomAdapterRealtor(arrayList, getApplicationContext());
+                        listViewRealtor.setAdapter(adapter);
+;                       adapter.notifyDataSetChanged();
                     }
                 })
-                .setNegativeButton("Não", null)
+                .setNegativeButton(R.string.nao, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 
-    ///CRIAR MENU OPCOES
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_opcoes, menu);
@@ -178,7 +178,6 @@ public class ListViewRealtorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.menuItemAdd:
                 Intent intent = new Intent(this, RealtorRegisterActivity.class);
@@ -190,19 +189,6 @@ public class ListViewRealtorActivity extends AppCompatActivity {
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void insertMockDatabase() {
-//        db.addClient(new Realtor ("Michele da Silva","41 99999-9999","flavia@gmail.com","1234"));
-//        db.addClient(new Realtor ("Diego Carvalho","41 99845-4545","diego@gmail.com","4321"));
-//        db.addClient(new Realtor ("Luis Felipe","41 98764-4590","luis@gmail.com","1342"));
-//        db.addClient(new Realtor ("Daniela dos Santos","41 98832-1456","danila@gmail.com","2431"));
-//        db.addClient(new Realtor ("Barbara Antunes","41 99806-2567","barbara@gmail.com","9876"));
-//        db.addClient(new Realtor ("Alisson Barbosa","41 99803-7748","alisson@gmail.com","4575"));
-//        db.addClient(new Realtor ("Pedro Henrique","41 98528-6534","pedro@gmail.com","9448"));
-//        db.addClient(new Realtor ("Carol Freitas","41 99066-8776","carol@gmail.com","8745"));
-//        db.addClient(new Realtor ("Thiago Farias","41 99346-2309","thiago@gmail.com","2367"));
-//        db.addClient(new Realtor ("Felipe da Silva","41 98725-0876","felipe@gmail.com","9009"));
     }
 
 }

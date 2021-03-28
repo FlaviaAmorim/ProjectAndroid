@@ -67,4 +67,11 @@
     <string name="sobre_menu">Sobre</string>
     <string name="ABOUT">SOBRE</string>
     <string name="selecione">Selecione</string>
+    <string name="atencao">Atenção</string>
+    <string name="tem_certeza_que_deseja_excluir_este_item">Tem certeza que deseja excluir este item?</string>
+    <string name="limpar_lista">Limpar lista</string>
+    <string name="tem_certeza_que_deseja_limpar_a_lista">Tem certeza que deseja limpar a lista?</string>
+    <string name="alterar_propriedade">Alterar Propriedade</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
 </resources>

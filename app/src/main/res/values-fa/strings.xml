@@ -67,4 +67,11 @@
     <string name="sobre_menu">در باره</string>
     <string name="ABOUT">در باره</string>
     <string name="selecione">انتخاب کنید</string>
+    <string name="atencao">هشدار</string>
+    <string name="tem_certeza_que_deseja_excluir_este_item">آیا مطمئن هستید که میخواهید این مورد را حذف کنید؟</string>
+    <string name="limpar_lista">پاک کردن لیست</string>
+    <string name="tem_certeza_que_deseja_limpar_a_lista">آیا مطمئن هستید که می خواهید لیست را پاک کنید؟</string>
+    <string name="alterar_propriedade">تغییر املاک</string>
+    <string name="sim">آره</string>
+    <string name="nao">نه</string>
 </resources>

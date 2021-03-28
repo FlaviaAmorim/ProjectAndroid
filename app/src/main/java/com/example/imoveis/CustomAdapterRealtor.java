@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class CustomAdapterRealtor extends ArrayAdapter<Realtor> implements View.OnClickListener {
 
-    private ArrayList<Realtor> dataSet;
+    public ArrayList<Realtor> dataSet;
     Context mContext;
 
     // View lookup cache
@@ -35,7 +35,6 @@ public class CustomAdapterRealtor extends ArrayAdapter<Realtor> implements View.
     public void onClick(View v) {
 
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

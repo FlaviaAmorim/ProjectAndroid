@@ -8,9 +8,9 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "property_table")
 public class Property {
-    @PrimaryKey
-            @NonNull
-            @ColumnInfo(name = "property")
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "property")
 
     int id;
     String title;
@@ -21,7 +21,6 @@ public class Property {
     String phone;
     String typeContract;
     String description;
-
 
     public Property(){
 
